@@ -1,0 +1,25 @@
+{% include 'base.html' %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <fieldset>
+            {{ form.name.label }}
+            {{ form.name(class='form-control', placeholder='Name') }}
+        </fieldset>
+        <fieldset>
+            {{ form.phone.label }}
+            {{ form.phone(class='form-control', placeholder='Phone') }}
+        </fieldset>
+        <fieldset>
+            {{ form.address.label }}
+            {{ form.address(class='form-control', placeholder='Address') }}
+        </fieldset>
+        {{ form.submit }}
+    </div>
+</form>
+
+{% endblock content %}
