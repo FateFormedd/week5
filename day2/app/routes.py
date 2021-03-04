@@ -3,7 +3,7 @@ from flask import render_template, request, flash, redirect, url_for
 from app.forms import UserInfo, LoginForm
 from app.models import User
 from flask_login import login_user, logout_user, login_required
-from werkzeug import check_password_hash
+from werkzeug.security import check_password_hash
 
 
 @app.route('/')
@@ -25,14 +25,20 @@ def register():
     if request.method == "POST" and form.validate():
         name = form.name.data
         phone = form.phone.data
+        email = form.email.data
         address = form.address.data
+        password = form.password.data
 
         new_entry = Book(name, phone, address)
         db.session.add(new_entry)
         db.session.commit()
 
-        new_user = User(name)
+        new_user = User(name, email, password)
+        db.session.add(new_user)
+        db.session.commit()
 
+        flash("You have registered", 'success')
+        return redirect(url_for('index'))
     return render_template('register.html', form=form, title=title)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,6 +61,7 @@ def login():
     return render_template('login.html', title=title, form=form)
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash("You have succesfully logged out", 'primary')

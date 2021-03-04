@@ -15,13 +15,16 @@
             <a class="nav-link" href="{{ url_for('register') }}">Register</a>
           </li>
         </ul>
-        <ul>
+        <ul class="navbar-nav ms-auto">
+          {% if current_user.validate %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
           </li>
+          {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('Login') }}">LOGIN</a>
+            <a class="nav-link" href="{{ url_for('login') }}">LOGIN</a>
           </li>
+          {% endif %}
         </ul>
       </div>
 

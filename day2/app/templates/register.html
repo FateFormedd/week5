@@ -1,5 +1,4 @@
-{% include 'base.html' %}
-
+{% extends 'base.html' %}
 
 {% block content %}
 
@@ -15,10 +14,22 @@
             {{ form.phone(class='form-control', placeholder='Phone') }}
         </fieldset>
         <fieldset>
+            {{ form.email.label }}
+            {{ form.email(class='form-control', placeholder='Email') }}
+        </fieldset>
+        <fieldset>
             {{ form.address.label }}
             {{ form.address(class='form-control', placeholder='Address') }}
         </fieldset>
-        {{ form.submit }}
+        <fieldset>
+            {{ form.password.label }}
+            {{ form.password(class="form-control", placeholder="Password") }}
+        </fieldset>
+        <fieldset>
+            {{ form.confirm_pass.label }}
+            {{ form.confirm_pass(class="form-control", placeholder="Confirm Password") }}
+        </fieldset>
+        {{ form.submit(class='btn btn-success') }}
     </div>
 </form>
 
