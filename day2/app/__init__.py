@@ -15,4 +15,4 @@ login.login_view = 'login'
 login.login_message = 'YOU SHALL NOT PASS!'
 login.login_message_category = 'danger'
 
-from app import routes
+from app import routes, models

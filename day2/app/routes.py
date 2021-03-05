@@ -1,8 +1,8 @@
-from app import app
+from app import app, db
 from flask import render_template, request, flash, redirect, url_for
 from app.forms import UserInfo, LoginForm
-from app.models import User
-from flask_login import login_user, logout_user, login_required
+from app.models import User, Book
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
 
 
@@ -13,10 +13,18 @@ def index():
     return render_template('index.html', title=title)
 
 
-@app.route('/book', methods=['GET', 'POST'])
+@app.route('/myinfo')
+@login_required
+def myinfo():
+    title = "AJ Book | MY INFO"
+    return render_template('myinfo.html', title=title)
+
+
+@app.route('/book')
 def book():
     title = "AJ Book | BOOK"
     return render_template('book.html', title=title)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -33,13 +41,14 @@ def register():
         db.session.add(new_entry)
         db.session.commit()
 
-        new_user = User(name, email, password)
+        new_user = User(name, email, address, password)
         db.session.add(new_user)
         db.session.commit()
 
         flash("You have registered", 'success')
         return redirect(url_for('index'))
     return render_template('register.html', form=form, title=title)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -60,9 +69,12 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title=title, form=form)
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash("You have succesfully logged out", 'primary')
     return redirect(url_for('index'))
+
+

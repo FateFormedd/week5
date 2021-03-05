@@ -3,6 +3,16 @@
 
 {% block content %}
 
+    {% for b in book %}
+    <div class="card" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Name: {{ b.name }}</li>
+            <li class="list-group-item">Phone: {{ b.phone }}</li>
+            <li class="list-group-item">Email: {{ b.email }}</li>
+            <li class="list-group-item">Address: {{ b.address }}</li>
+        </ul>
+    </div>
+    {% endfor %}
 
 
 {% endblock content %}
