@@ -15,14 +15,15 @@ def index():
 
 @app.route('/myinfo')
 @login_required
-def myinfo():
+def my_info():
     title = "AJ Book | MY INFO"
-    return render_template('myinfo.html', title=title)
+    return render_template('my_info.html', title=title)
 
 
-@app.route('/book')
+@app.route('/book', methods=['GET'])
 def book():
     title = "AJ Book | BOOK"
+    book = Book.query.order_by(Book.name.desc()).all()
     return render_template('book.html', title=title)
 
 
@@ -76,5 +77,43 @@ def logout():
     logout_user()
     flash("You have succesfully logged out", 'primary')
     return redirect(url_for('index'))
+
+
+@app.route('/myinfo/delete/<int:user_id>', methods=['POST'])
+@login_required
+def delete_info(user_id):
+    user = User.query.get_or_404(user_id)
+
+    if user.id != current_user.id:
+        flash("You cannot delete other people")
+        return redirect(url_for('myinfo'))
+    db.session.delete(user)
+    db.session.commit()
+    flash("You have been deleted, have a good day!")
+    return redirect(url_for('index'))
+
+
+@app.route('/myinfo/update/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def update_info(user_id):
+    user = User.query.get_or_404(user_id)
+    update_form = UserInfo()
+
+    if user.id != current_user.id:
+            flash("You cant update another users information")
+            return redirect(url_for('myinfo'))
+
+    if request.method == 'POST':
+        name = update_form.name.data
+        email = update_form.email.data
+        phone = update_form.phone.data
+        address = update_form.address.data
+
+        db.session.commit()
+        flash("You have updated your information", 'info')
+        return redirect(url_for('index')
+    
+    return render_template('updateinfo.html', form=update_form)
+
 
 

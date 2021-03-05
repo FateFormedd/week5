@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)
-    address = db.Column(db.String(150), nullable=False)
+    address = db.Column(db.String(150), nullable=True)
     password = db.Column(db.String(256), nullable=False)
 
     def __init__(self, name, email, address, password):

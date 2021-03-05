@@ -3,14 +3,42 @@
 
 {% block content %}
 
-    <h4>My Info:</h4>
+<h4>My Info:</h4>
 
-    <div class="card" style="width: 18rem;">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Name: {{ current_user.name }}</li>
-            <li class="list-group-item">Email: {{ current_user.email }}</li>
-            <li class="list-group-item">Address: {{ current_user.address }}</li>
-        </ul>
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Name: {{ current_user.name }}</li>
+        <li class="list-group-item">Email: {{ current_user.email }}</li>
+        <li class="list-group-item">Address: {{ current_user.address }}</li>
+    </ul>
+</div>
+
+<!-- Update Button -->
+<a href="{{ url_for('update_user', user_id=user.id) }}"><button class="btn btn-primary">Update User</button></a>
+
+<!-- Delete Button -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete User</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete User - Are You Sure?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          This action cannot be reversed. Are you sure you want to delete?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST">
+              <input type="submit" value="Delete" class="btn btn-danger">
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 
 {% endblock content %}
